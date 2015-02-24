@@ -25,11 +25,10 @@ use Sylius\Bundle\SearchBundle\QueryLogger\QueryLoggerInterface;
  */
 class OrmFinder extends AbstractFinder
 {
-    public function __construct(SearchIndexRepository $searchRepository, $config, $productRepository, EntityManager $em, QueryLoggerInterface $queryLogger)
+    public function __construct(SearchIndexRepository $searchRepository, $config, EntityManager $em, QueryLoggerInterface $queryLogger)
     {
         $this->searchRepository  = $searchRepository;
         $this->config            = $config;
-        $this->productRepository = $productRepository;
         $this->em                = $em;
         $this->queryLogger       = $queryLogger;
     }
@@ -132,7 +131,7 @@ class OrmFinder extends AbstractFinder
             //filter the ids if searchParam is not all
             // TODO: Will refactor pre-search filtering into a service based on the finder configuration
             if ($query->getSearchParam() != 'all' && $query->isDropdownFilterEnabled()) {
-                $preFilteredModelIds = $this->searchRepository->getProductIdsFromTaxonName($query->getSearchParam());
+                $preFilteredModelIds = $this->searchRepository->getModelIdsFromSearchParam($query->getSearchParam());
                 if (isset($preFilteredModelIds[$modelClass])) {
                     $modelIds = array_intersect($modelIds, $preFilteredModelIds[$modelClass]);
                 } else {

@@ -40,7 +40,6 @@
     <services>
         <service id="sylius_search.repository" class="%sylius_search.searchindex.repository.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="sylius.repository.product" />
         </service>
 
         <!-- dummy service name, is being aliaced in dependency injection -->
@@ -54,7 +53,6 @@
         <service id="sylius_search.orm.finder" class="%sylius_search.orm.finder.class%">
             <argument type="service" id="sylius_search.repository" />
             <argument>%sylius_search.config%</argument>
-            <argument type="service" id="sylius.repository.product" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="sylius_search.query.logger" on-invalid="ignore" />
         </service>
@@ -62,7 +60,6 @@
         <service id="sylius_search.elasticsearch.finder" class="%sylius_search.elasticsearch.finder.class%">
             <argument type="service" id="sylius_search.repository" />
             <argument>%sylius_search.config%</argument>
-            <argument type="service" id="sylius.repository.product" />
             <argument type="service" id="fos_elastica.index.sylius" on-invalid="ignore" />
             <argument type="service" id="sylius_search.query.logger" on-invalid="ignore" />
         </service>

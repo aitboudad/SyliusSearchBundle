@@ -32,13 +32,11 @@ class ElasticsearchFinder extends AbstractFinder
 
     public function __construct(
         SearchIndexRepository $searchRepository,
-        $config, $productRepository,
         $targetIndex,
         QueryLoggerInterface $queryLogger
     ) {
         $this->searchRepository = $searchRepository;
         $this->config = $config;
-        $this->productRepository = $productRepository;
         $this->targetIndex = $targetIndex;
         $this->queryLogger = $queryLogger;
     }

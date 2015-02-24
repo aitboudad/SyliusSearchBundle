@@ -13,7 +13,6 @@ namespace Sylius\Bundle\SearchBundle\Doctrine\ORM;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 /**
@@ -27,47 +26,11 @@ class SearchIndexRepository extends EntityRepository
     private $em;
 
     /**
-     * @var ProductRepository
-     */
-    private $productRepository;
-
-    /**
      * @param EntityManager     $em
-     * @param ProductRepository $productRepository
      */
-    public function __construct(EntityManager $em, ProductRepository $productRepository)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->productRepository = $productRepository;
-    }
-
-    /**
-     * Returns the product ids for a given taxon.
-     *
-     * @param $taxonName
-     *
-     * @return array
-     */
-    public function getProductIdsFromTaxonName($taxonName)
-    {
-        $productClassName = $this->productRepository->getClassName();
-
-        // Gets the taxon ids
-        $queryBuilder = $this->em->createQueryBuilder();
-        $queryBuilder
-            ->select('product')
-            ->from($productClassName, 'product')
-            ->leftJoin('product.taxons', 'taxon')
-            ->where('taxon.name = :taxonName')
-            ->setParameter('taxonName', $taxonName)
-        ;
-
-        $filteredIds = array();
-        foreach ($queryBuilder->getQuery()->getArrayResult() as $product) {
-            $filteredIds[$productClassName][] = $product['id'];
-        }
-
-        return $filteredIds;
     }
 
     /**
@@ -93,23 +56,5 @@ class SearchIndexRepository extends EntityRepository
         }
 
         return $results;
-    }
-
-    /**
-     * @param array $ids
-     *
-     * @return array
-     */
-    public function getProductsByIds(array $ids)
-    {
-        return $this->productRepository->findBy(array('id' => $ids));
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    public function getProductsQueryBuilder()
-    {
-        return $this->productRepository->getCollectionQueryBuilder();
     }
 }

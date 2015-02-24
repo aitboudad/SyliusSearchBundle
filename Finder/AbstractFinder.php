@@ -12,7 +12,6 @@
 namespace Sylius\Bundle\SearchBundle\Finder;
 
 use Pagerfanta\Pagerfanta;
-use Sylius\Bundle\ProductBundle\Doctrine\ORM\ProductRepository;
 use Sylius\Bundle\SearchBundle\Doctrine\ORM\SearchIndexRepository;
 use Sylius\Bundle\SearchBundle\QueryLogger\QueryLoggerInterface;
 
@@ -27,11 +26,6 @@ abstract class AbstractFinder implements FinderInterface
      * @var
      */
     protected $config;
-
-    /**
-     * @var ProductRepository
-     */
-    protected $productRepository;
 
     /**
      * @var QueryLoggerInterface
